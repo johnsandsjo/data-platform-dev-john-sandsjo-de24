@@ -19,5 +19,3 @@ fig, ax = plt.subplots(1)
 ax.bar(x= df["Name"], height = df["Age"])
 fig.savefig(Path(__file__).parent / "ages.png")
 fig.tight_layout()
-
-print(df)
