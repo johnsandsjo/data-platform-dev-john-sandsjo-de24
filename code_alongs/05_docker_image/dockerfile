@@ -1,0 +1,16 @@
+#base layer - starting from an existing image
+FROM python:3.13
+
+#instruction layer - where we will start in the container
+WORKDIR /app
+
+#instruction layer - copies everything from this in host system into /app
+COPY . .
+
+#instruction layer - installing packaging (runs bash command)
+#notera här att jag får pip när jag installerar python ovan. Så jag kan köra pip
+#denna installerar allt som är specat i denna fil
+RUN pip install -r requirements.txt
+
+#instruction layer, bash command to run when container is spun up
+CMD [ "python" , "main.py"]
