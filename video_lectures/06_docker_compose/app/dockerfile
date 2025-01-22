@@ -1,0 +1,13 @@
+FROM python:3.13
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "app.py"]
+
+#this dockerfile is chaneged from previous lesson 05_docker_image 
+#since we are now working in the docker compose yml instead
+# changed COPY and removed CMD. It is now moved into docker_compose file
