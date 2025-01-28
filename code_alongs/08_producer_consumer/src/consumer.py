@@ -9,7 +9,7 @@ sdf = app.dataframe(topic=jokes_topic)
 
 sdf.update(lambda message: print(f"Input message: {message} \n"))
 
-# detta är sammamotsvarande för lamda funktionen ovan
+# detta är motsvarande för lamda funktionen ovan
 #def print_message(message):
 #   print(message)
 #self.update(print_message)
