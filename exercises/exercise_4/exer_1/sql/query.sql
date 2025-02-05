@@ -1,0 +1,1 @@
+SELECT * FROM exercise_4_0_table ORDER BY name;
