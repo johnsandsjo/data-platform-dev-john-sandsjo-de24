@@ -25,16 +25,16 @@ def get_latest_coint_data(target_symbol = 'BTC'):
 
 def main():
     app = Application(broker_address="localhost:9092", consumer_group="coin_group")
-    coint_topic = app.topic(name="coins", value_serializer="json")
+    coin_topic = app.topic(name="coins", value_serializer="json")
 
-    with app.get_producer() as producder:
+    with app.get_producer() as producer:
         while True:
             coin_latest = get_latest_coint_data("BTC")
-            kafka_message = coint_topic.serialize(key=coin_latest["symbol"], value=coin_latest)
+            kafka_message = coin_topic.serialize(key=coin_latest["symbol"], value=coin_latest)
 
             print(f"produce event with key = BTC, price = {coin_latest['quote']['USD']['price']}")
 
-            producder.produce(topic=coint_topic.name, key=kafka_message.key, value=kafka_message.value)
+            producer.produce(topic=coin_topic.name, key=kafka_message.key, value=kafka_message.value)
             time.sleep(10)
 
 if __name__== '__main__':
