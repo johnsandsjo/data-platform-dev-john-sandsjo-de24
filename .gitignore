@@ -175,3 +175,5 @@ cython_debug/
 
 #secrets etc
 .env
+
+kafka_data
