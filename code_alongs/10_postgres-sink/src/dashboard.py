@@ -24,9 +24,15 @@ count = st_autorefresh(interval=10*1000, limit= 100, key="data_refresh")
 
 def layout():
     df = load_data("SELECT * FROM bitcoin;")
-    st.markdown("# Coin Data Got Damn it!")
+    btc_df = load_data("SELECT * FROM bitcoin WHERE coin = 'Bitcoin';")
+    eth_df = load_data("SELECT * FROM bitcoin WHERE coin = 'Ethereum';")
+    st.markdown("# Latest Price")
+    st.selectbox("Choose currency", df["coin"].unique())
+    st.metric("Bitcoin", f"{btc_df["price_usd"].iloc[-1]:,.2f} USD", border=True)
+    st.metric("Ethereum", f"{eth_df["price_usd"].iloc[-1]:,.2f} USD", border=True)
+    #st.dataframe(df.tail())
 
-    st.dataframe(df.tail())
+    
 
 #df = load_data("SELECT * FROM bitcoin;")
 #print(df)
