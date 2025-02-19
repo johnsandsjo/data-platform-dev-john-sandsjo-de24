@@ -23,14 +23,27 @@ def load_data(query):
 count = st_autorefresh(interval=10*1000, limit= 100, key="data_refresh")
 
 def layout():
+    currency = {
+        "SEK": 10000000,
+        "NOK" : -1000000,
+    }
     df = load_data("SELECT * FROM bitcoin;")
-    btc_df = load_data("SELECT * FROM bitcoin WHERE coin = 'Bitcoin';")
-    eth_df = load_data("SELECT * FROM bitcoin WHERE coin = 'Ethereum';")
+    df["price SEK"] = df["price_usd"]*currency["SEK"]
+    df["price NOK"] = df["price_usd"]*currency["NOK"]
+    btc_df = df[df['coin'] == 'Bitcoin']
+    eth_df = df[df['coin'] == 'Ethereum']
+
     st.markdown("# Latest Price")
-    st.selectbox("Choose currency", df["coin"].unique())
-    st.metric("Bitcoin", f"{btc_df["price_usd"].iloc[-1]:,.2f} USD", border=True)
-    st.metric("Ethereum", f"{eth_df["price_usd"].iloc[-1]:,.2f} USD", border=True)
-    #st.dataframe(df.tail())
+
+    crypto_choice = st.selectbox("Choose currency", df["coin"].unique())
+    currency_choice = st.selectbox("Choose currency", ['SEK', 'NOK'])
+    price_column = f"price {currency_choice}"
+    if crypto_choice == "Bitcoin":
+        current_df = btc_df
+    elif crypto_choice == "Ethereum":
+        current_df = eth_df
+    st.metric(f"{crypto_choice}", f"{current_df[price_column].iloc[-1]:,.2f} {currency_choice}", border=True)
+    st.dataframe(current_df)
 
     
 
